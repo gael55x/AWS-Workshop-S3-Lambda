@@ -211,6 +211,11 @@ Now scroll down to **Runtime settings** and make sure the **Handler** says:
 
 - `lambda_function.handler`
 
+> [!NOTE]
+> If you see `Runtime.HandlerNotFound` in CloudWatch logs, it almost always means the handler string is wrong.  
+> In the current Lambda Console UI, “Runtime settings” may appear under the **Code** tab below the editor.  
+> If you can’t find it, use your browser’s Find on the page for the word **Handler**.
+
 Next, give the function permission to talk to your images bucket.
 
 Under the **Configuration** tab → **Permissions** → click the Execution role name to open IAM.
@@ -245,6 +250,11 @@ Under the **Configuration** tab → **Function URL** → **Create function URL**
   - **Allowed methods**: Enable `GET, POST, OPTIONS`.
   - **Allowed headers**: `content-type`
 
+> [!NOTE]
+> If your function code already returns CORS headers (and handles `OPTIONS`), enabling Function URL CORS in the Console can cause the browser to reject responses with:  
+> “`Access-Control-Allow-Origin` contains multiple values”.  
+> If you hit that error, **disable Function URL CORS** and rely on the headers returned by the function code.
+
 You now have an HTTPS Function URL.
 
 Save it to your notepad.
@@ -267,6 +277,11 @@ window.CAT_UPLOAD_CONFIG = {
   apiBaseUrl: "https://<your-id>.lambda-url.ap-southeast-1.on.aws/"
 };
 ```
+
+> [!NOTE]
+> If you’re hosting the frontend from S3 website hosting, updating `frontend/config.js` locally is not enough.  
+> You must **re-upload/sync** `config.js` to the frontend bucket, then hard refresh the page.  
+> Smell-test: if the browser’s failed `POST` request URL is your **S3 website URL**, your bucket’s `config.js` is still old.
 
 <br>
 <br>
@@ -308,6 +323,26 @@ Then the Gallery calls the same Function URL with `GET` and displays images usin
 - CORS errors in the browser:
   - Confirm the images bucket CORS contains your exact frontend origin (from Lecture 1).
   - Confirm your Function URL CORS allows your frontend origin.
+  - If you see “`Access-Control-Allow-Origin` contains multiple values”, you likely enabled Function URL CORS **and** your code is also returning `Access-Control-Allow-Origin`.
+  - S3 CORS is strict: the origin must match **exactly** (`scheme://host`) with **no trailing slash**.
+
+- Upload fails on the S3 `PUT` preflight (`OPTIONS` to S3) with “No `Access-Control-Allow-Origin` header”:
+  - This is almost always the images bucket CORS origin mismatch (often an accidental trailing `/`), or a redirect due to a non-regional S3 endpoint.
+  - Check the presigned upload URL hostname:
+    - Prefer `https://<bucket>.s3.ap-southeast-1.amazonaws.com/...` over `https://<bucket>.s3.amazonaws.com/...`.
+  - If needed, generate presigned URLs using a regional S3 client and SigV4 in `backend/app.py`:
+
+```python
+import boto3
+from botocore.config import Config
+
+s3 = boto3.client(
+    "s3",
+    region_name="ap-southeast-1",
+    endpoint_url="https://s3.ap-southeast-1.amazonaws.com",
+    config=Config(signature_version="s3v4"),
+)
+```
 
 - SignatureDoesNotMatch:
   - Ensure the frontend PUT `Content-Type` matches exactly what the backend presigned in Python.
