@@ -1,0 +1,28 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListImagesPrefixOnly",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": "arn:aws:s3:::REPLACE_WITH_IMAGES_BUCKET",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["images/", "images/*"]
+        }
+      }
+    },
+    {
+      "Sid": "PutImagesOnly",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject"],
+      "Resource": "arn:aws:s3:::REPLACE_WITH_IMAGES_BUCKET/images/*"
+    },
+    {
+      "Sid": "GetImagesOnlyForPresignedDownload",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject"],
+      "Resource": "arn:aws:s3:::REPLACE_WITH_IMAGES_BUCKET/images/*"
+    }
+  ]
+}

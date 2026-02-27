@@ -1,0 +1,134 @@
+:root {
+  --bg: #0b1020;
+  --card: #141b34;
+  --text: #e9ecf3;
+  --muted: #a7b0c5;
+  --accent: #7aa2ff;
+  --danger: #ff6b6b;
+  --ok: #41d17d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 700px at 20% 0%, #1a2350, var(--bg));
+  color: var(--text);
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.95em;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 16px 80px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+}
+
+.subhead {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.card {
+  margin-top: 22px;
+  padding: 18px 18px 16px;
+  background: rgba(20, 27, 52, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+input[type="file"] {
+  color: var(--muted);
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(122, 162, 255, 0.15);
+  color: var(--text);
+}
+
+button:hover {
+  border-color: rgba(122, 162, 255, 0.55);
+}
+
+.hint {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.status {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.status.ok {
+  color: var(--ok);
+}
+
+.status.err {
+  color: var(--danger);
+}
+
+.galleryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.gallery {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.tile {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.2);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+
+.tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+

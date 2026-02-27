@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cat Upload</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <h1>Cat Upload</h1>
+        <p class="subhead">A minimal workshop app for Amazon S3 integration.</p>
+      </header>
+
+      <section class="card">
+        <h2>Upload a cat image</h2>
+        <form id="uploadForm">
+          <input id="fileInput" type="file" accept="image/*" />
+          <button id="uploadBtn" type="submit">Upload</button>
+        </form>
+        <p id="status" class="status" aria-live="polite"></p>
+        <p class="hint">
+          On <code>main</code>, uploads are intentionally not wired to S3 yet. Switch to
+          <code>step-4-presigned-upload</code> when you’re ready.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="galleryHeader">
+          <h2>Uploaded cats</h2>
+          <button id="refreshBtn" type="button">Refresh</button>
+        </div>
+        <div id="gallery" class="gallery"></div>
+      </section>
+    </main>
+
+    <script src="./config.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

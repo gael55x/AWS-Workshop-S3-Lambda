@@ -1,0 +1,21 @@
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Builds
+dist/
+build/
+
+# Speaker-only notes (kept local)
+docs/speaker/
